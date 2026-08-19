@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yamilet Sanchez — Ing. de Software con IA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #060E1F;
+    --surface: #0E1B33;
+    --surface-2: #142544;
+    --line: #223357;
+    --blue: #5B9DFF;
+    --skyblue: #7DD3FC;
+    --text: #EAF0FB;
+    --muted: #7F91B8;
+    --radius: 14px;
+  }
+
+  *{ box-sizing: border-box; }
+
+  html{ scroll-behavior: smooth; }
+
+  body{
+    margin:0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body::before{
+    content:"";
+    position: fixed;
+    inset:0;
+    background-image:
+      radial-gradient(circle at 15% 8%, rgba(255,180,84,0.08), transparent 40%),
+      radial-gradient(circle at 85% 92%, rgba(110,231,183,0.06), transparent 45%);
+    pointer-events:none;
+    z-index:0;
+  }
+
+  a{ color: inherit; }
+
+  .wrap{
+    position: relative;
+    z-index: 1;
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+
+  h1,h2,h3{
+    font-family: 'Space Grotesk', sans-serif;
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+
+  .eyebrow{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--blue);
+  }
+
+  /* ---------- HERO ---------- */
+  header.hero{
+    padding: 72px 0 48px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .hero-top{
+    display:flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .avatar-ring{
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    background: linear-gradient(140deg, var(--blue), var(--skyblue));
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+    box-shadow: 0 0 0 1px var(--line), 0 12px 32px rgba(255,180,84,0.15);
+  }
+  .avatar-ring span{
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    background: var(--surface);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size:1.6rem;
+    color: var(--text);
+  }
+
+  .hero h1{
+    font-size: clamp(2.1rem, 5vw, 3rem);
+    font-weight: 700;
+    margin-top: 10px;
+  }
+
+  .hero .role{
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--skyblue);
+    font-size: 1rem;
+    margin-top: 8px;
+  }
+
+  .hero p.pitch{
+    max-width: 60ch;
+    color: var(--muted);
+    margin-top: 18px;
+    font-size: 1.02rem;
+  }
+
+  .contact-row{
+    display:flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 26px;
+  }
+
+  .chip{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    padding: 8px 14px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    font-size: 0.85rem;
+    color: var(--text);
+    text-decoration:none;
+    transition: border-color .2s ease, transform .2s ease;
+  }
+  .chip:hover{ border-color: var(--blue); transform: translateY(-1px); }
+  .chip:focus-visible{ outline: 2px solid var(--blue); outline-offset: 2px; }
+  .chip svg{ width:15px; height:15px; stroke: var(--blue); flex-shrink:0; }
+
+  /* ---------- SECTIONS ---------- */
+  section{ padding: 56px 0; border-bottom: 1px solid var(--line); }
+  section:last-of-type{ border-bottom: none; }
+
+  .section-head{ margin-bottom: 30px; }
+  .section-head h2{ font-size: 1.5rem; margin-top: 6px; }
+
+  /* ---------- SEMESTER PATH (signature element) ---------- */
+  .path{
+    position: relative;
+    margin-top: 40px;
+    padding: 28px 8px 8px;
+  }
+  .path-track{
+    position: relative;
+    display:flex;
+    justify-content: space-between;
+    align-items:center;
+  }
+  .path-line{
+    position:absolute;
+    top:50%;
+    left:0;
+    right:0;
+    height:2px;
+    background: var(--line);
+    transform: translateY(-50%);
+    z-index:0;
+  }
+  .path-line-fill{
+    position:absolute;
+    top:50%;
+    left:0;
+    height:2px;
+    width: 33%;
+    background: linear-gradient(90deg, var(--skyblue), var(--blue));
+    transform: translateY(-50%);
+    z-index:1;
+  }
+  .node{
+    position: relative;
+    z-index: 2;
+    width: 34px; height:34px;
+    border-radius:50%;
+    background: var(--surface);
+    border: 2px solid var(--line);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    flex-shrink:0;
+  }
+  .node.done{ border-color: var(--skyblue); color: var(--skyblue); }
+  .node.current{
+    border-color: var(--blue);
+    color: var(--bg);
+    background: var(--blue);
+    box-shadow: 0 0 0 5px rgba(255,180,84,0.15);
+    animation: pulse 2.6s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%,100%{ box-shadow: 0 0 0 5px rgba(255,180,84,0.15); }
+    50%{ box-shadow: 0 0 0 9px rgba(255,180,84,0.08); }
+  }
+  .path-caption{
+    margin-top: 16px;
+    font-family:'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+  .path-caption b{ color: var(--blue); font-weight:500; }
+
+  @media (prefers-reduced-motion: reduce){
+    .node.current{ animation: none; }
+  }
+
+  /* ---------- ABOUT ---------- */
+  .about-grid{
+    display:grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 36px;
+  }
+  .about-grid p{ color: var(--muted); }
+  .about-grid p + p{ margin-top: 14px; }
+
+  .fact-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:14px; }
+  .fact-list li{
+    display:flex;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 0.88rem;
+    border-bottom: 1px dashed var(--line);
+    padding-bottom: 12px;
+  }
+  .fact-list li span:first-child{ color: var(--muted); }
+  .fact-list li span:last-child{ font-family:'JetBrains Mono', monospace; text-align:right; color: var(--text); }
+
+  @media (max-width: 720px){
+    .about-grid{ grid-template-columns: 1fr; }
+  }
+
+  /* ---------- SKILLS ---------- */
+  .skill-groups{
+    display:grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px;
+  }
+  @media (max-width: 640px){ .skill-groups{ grid-template-columns: 1fr; } }
+
+  .skill-card{
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 20px 22px;
+  }
+  .skill-card h3{
+    font-size: 0.95rem;
+    color: var(--skyblue);
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 500;
+    margin-bottom: 14px;
+  }
+  .tag-row{ display:flex; flex-wrap:wrap; gap: 8px; }
+  .tag{
+    font-size: 0.8rem;
+    padding: 6px 11px;
+    border-radius: 8px;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    color: var(--text);
+  }
+
+  /* ---------- PROJECTS ---------- */
+  .projects{
+    display:flex;
+    flex-direction:column;
+    gap: 18px;
+  }
+  .project{
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 24px 26px;
+    display:grid;
+    grid-template-columns: 120px 1fr;
+    gap: 22px;
+  }
+  @media (max-width: 640px){
+    .project{ grid-template-columns: 1fr; }
+  }
+  .project .stamp{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    line-height: 1.8;
+  }
+  .project .stamp b{ display:block; color: var(--blue); font-size: 0.8rem; }
+  .project h3{ font-size: 1.05rem; margin-bottom: 8px; }
+  .project p{ color: var(--muted); font-size: 0.92rem; margin: 0 0 12px; }
+  .project .tag-row{ margin-top: 4px; }
+  .project .tag{ font-size: 0.72rem; padding: 4px 9px; }
+
+  /* ---------- EDUCATION / CERTS ---------- */
+  .edu-card{
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 24px 26px;
+    display:flex;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .edu-card h3{ font-size: 1.1rem; }
+  .edu-card .muted{ color: var(--muted); font-size: 0.88rem; margin-top: 4px; }
+  .edu-card .when{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--skyblue);
+    white-space: nowrap;
+  }
+
+  .courses{
+    margin-top: 18px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+
+  .certs{
+    margin-top: 20px;
+    list-style:none;
+    padding:0;
+    display:flex;
+    flex-direction:column;
+    gap: 10px;
+  }
+  .certs li{
+    display:flex;
+    align-items:baseline;
+    gap: 10px;
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+  .certs li::before{
+    content:"";
+    width:6px; height:6px;
+    border-radius:50%;
+    background: var(--blue);
+    flex-shrink:0;
+  }
+  .certs li b{ color: var(--text); font-weight: 500; }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    padding: 48px 0 64px;
+    text-align:center;
+  }
+  footer .role{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+  footer h2{
+    font-size: 1.6rem;
+    margin-top: 10px;
+  }
+  footer .contact-row{ justify-content:center; margin-top: 24px; }
+  footer .note{
+    margin-top: 28px;
+    font-size: 0.75rem;
+    color: var(--muted);
+    opacity: 0.7;
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div class="hero-top">
+      <div>
+        <p class="eyebrow">CV · Perfil profesional</p>
+        <h1>Yamilet Sanchez</h1>
+        <p class="role">Estudiante de Ingeniería de Software con Inteligencia Artificial — SENATI</p>
+        <p class="pitch">Cuarto semestre, enfocada en construir software con criterio: desde estructuras de datos y bases de datos hasta mis primeros modelos de machine learning. Aprendo escribiendo código todos los días y documentando lo que funciona (y lo que no).</p>
+      </div>
+      <div class="avatar-ring"><span>YS</span></div>
+    </div>
+
+    <div class="contact-row">
+      <a class="chip" href="mailto:yamilet.sanchez@senati.pe">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="M4 6l8 7 8-7"/></svg>
+        yamixsanchez274@gmail.com
+      </a>
+      <a class="chip" href="https://github.com/Yamilet2708" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.9a3.4 3.4 0 0 0-1-2.6c3 0 6-2 6-5.5a4.4 4.4 0 0 0-1.2-3.2 4 4 0 0 0-.1-3S18 6 16.5 7a13 13 0 0 0-7 0C8 6 6.6 6.5 6.6 6.5a4 4 0 0 0-.1 3 4.4 4.4 0 0 0-1.2 3.2c0 3.5 3 5.5 6 5.5a3.4 3.4 0 0 0-1 2.6V22"/></svg>
+        github.com/Yamilet2708
+      </a>
+      <span class="chip">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 6-9 12-9 12S3 16 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        Chiclayo - Lambayeque - Peru
+      </span>
+    </div>
+  </header>
+
+  <section id="ruta">
+    <div class="section-head">
+      <p class="eyebrow">Avance académico</p>
+      <h2>Ruta formativa en SENATI</h2>
+    </div>
+    <div class="path">
+      <div class="path-track">
+        <div class="path-line"></div>
+        <div class="path-line-fill"></div>
+        <div class="node done">1</div>
+        <div class="node done">2</div>
+        <div class="node done">3</div>
+        <div class="node current">4</div>
+        <div class="node">5</div>
+        <div class="node">6</div>
+      </div>
+      <p class="path-caption">Cursando el <b>semestre 4 de 6 </b> · Carrera de Ingeniería de Software con Inteligencia Artificial · Egreso estimado 2027</p>
+    </div>
+  </section>
+
+  <section id="sobre-mi">
+    <div class="section-head">
+      <p class="eyebrow">Perfil</p>
+      <h2>Sobre mí</h2>
+    </div>
+    <div class="about-grid">
+      <div>
+        <p>Empecé la carrera porque quería entender qué hay detrás de las apps que uso todos los días, y me quedé por la IA: cómo un modelo aprende de datos y termina tomando decisiones. Hasta ahora eso se ha traducido en proyectos de aula, un par de scripts que automatizan tareas repetitivas, y muchas horas practicando lógica en Python.</p>
+        <p>Me interesa la parte de ingeniería tanto como la de modelos: escribir código legible, versionar bien, y entender el problema antes de entrenar nada. Busco una práctica pre-profesional donde pueda seguir aprendiendo con un equipo real.</p>
+      </div>
+      <ul class="fact-list">
+        <li><span>Institución</span><span>SENATI</span></li>
+        <li><span>Carrera</span><span>Ing. de Software con IA</span></li>
+        <li><span>Ciclo actual</span><span>4to semestre</span></li>
+        <li><span>Modalidad</span><span>Presencial7Remoto</span></li>
+        <li><span>Disponibilidad</span><span>Prácticas · 30h/sem</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="habilidades">
+    <div class="section-head">
+      <p class="eyebrow">Stack</p>
+      <h2>Habilidades técnicas</h2>
+    </div>
+    <div class="skill-groups">
+      <div class="skill-card">
+        <h3>&lt;/&gt; Programación</h3>
+        <div class="tag-row">
+          <span class="tag">Python</span>
+          <span class="tag">Java</span>
+          <span class="tag">JavaScript</span>
+          <span class="tag">SQL</span>
+          <span class="tag">POO</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <h3>◇ IA &amp; Datos</h3>
+        <div class="tag-row">
+          <span class="tag">Pandas</span>
+          <span class="tag">NumPy</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <h3>⚙ Herramientas</h3>
+        <div class="tag-row">
+          <span class="tag">Git / GitHub</span>
+          <span class="tag">MySQL</span>
+          <span class="tag">VS Code</span>
+          <span class="tag">Linux básico</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <h3>◎ Habilidades blandas</h3>
+        <div class="tag-row">
+          <span class="tag">Trabajo en equipo</span>
+          <span class="tag">Comunicación técnica</span>
+          <span class="tag">Autoaprendizaje</span>
+          <span class="tag">Gestión del tiempo</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="formacion">
+    <div class="section-head">
+      <p class="eyebrow">Trayectoria</p>
+    </div>
+
+    <div class="edu-card">
+      <div>
+        <h3>Ingeniería de Software con Inteligencia Artificial</h3>
+        <p class="muted">SENATI — Instituto Superior Tecnológico</p>
+        <div class="courses">
+          <span class="tag">Estructuras de datos</span>
+          <span class="tag">Bases de datos I y II</span>
+          <span class="tag">Programación orientada a objetos</span>
+        </div>
+      </div>
+      <div class="when">2025 — 2027 (previsto)</div>
+    </div>
+
+  </section>
+
+  <footer>
+    <p class="role">¿Hablamos?</p>
+    <div class="contact-row">
+      <a class="chip" href="mailto:yamilet.sanchez@senati.pe">yamixsanchez274@gmail.com</a>
+      <a class="chip" href="https://github.com/Yamilet2708" target="_blank" rel="noopener">GitHub</a>
+    </div>
+    <p class="note">Datos de contacto y proyectos son de ejemplo — reemplázalos con tu información real.</p>
+  </footer>
+
+</div>
+
+</body>
+</html>
